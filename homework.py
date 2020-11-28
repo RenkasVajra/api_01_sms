@@ -1,20 +1,36 @@
 import time
 import requests
+import os
 
 from twilio.rest import Client
 
 
 def get_status(user_id):
     params = {
-        ...
+        'user_ids':user_id,
+        'fields':'online',
+        'v':'5.92',
+        'access_token':os.getenv('VK_TOKEN')
     }
-    ...
-    return ...  # Верните статус пользователя в ВК
+
+    response = requests.post(
+        'https://api.vk.com/method/users.get', 
+        params=params)
+    return response.json()['response']['0']['online']  # Верните статус пользователя в ВК
 
 
-def send_sms(sms_text, client):
-    ...
-    return ...  # Верните sid отправленного сообщения из Twilio
+def sms_sender(sms_text, client):
+    account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+    auth_token = og.getenv('TWILIO_AUTH_TOKEN')
+    client = Client(account_sid,auth_token)
+    message = client.messages \
+                .create(
+                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+                     from_= os.getenv('NUMBER_FROM'),
+                     to= os.getenv('NUMBER_TO'),
+                 )
+
+    return message.sid  # Верните sid отправленного сообщения из Twilio
 
 
 if __name__ == '__main__':
