@@ -10,32 +10,29 @@ def get_status(user_id):
         'user_ids': user_id,
         'fields': 'online',
         'v': '5.92',
-        'access_token':os.getenv('VK_TOKEN')
+        'access_token': os.getenv('VK_TOKEN')
     }
 
     response = requests.post(
         'https://api.vk.com/method/users.get', 
         params=params
     )
-    return response.json()['response'][0]['online']  # Верните статус пользователя в ВК
+    return response.json()['response'][0]['online'] 
 
 
 def sms_sender(sms_text):
     account_sid = os.getenv('TWILIO_ACCOUNT_SID')
     auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-    client = Client(account_sid,auth_token)
-    message = client.messages \
-                .create(
-                    body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-                    from_= os.getenv('NUMBER_FROM'),
-                    to= os.getenv('NUMBER_TO'),
-                )
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+            body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+            from_=os.getenv('NUMBER_FROM'),
+            to=os.getenv('NUMBER_TO'),
+        )
 
-    return message.sid  # Верните sid отправленного сообщения из Twilio
-
+    return message.sid  
 
 if __name__ == '__main__':
-    # тут происходит инициализация Client
     vk_id = input('Введите id ')
     while True:
         if get_status(vk_id) == 1:
