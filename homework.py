@@ -25,10 +25,10 @@ def sms_sender(sms_text):
     auth_token = os.getenv('TWILIO_AUTH_TOKEN')
     client = Client(account_sid, auth_token)
     message = client.messages.create(
-            body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-            from_=os.getenv('NUMBER_FROM'),
-            to=os.getenv('NUMBER_TO'),
-        )
+        body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+        from_=os.getenv('NUMBER_FROM'),
+        to=os.getenv('NUMBER_TO'),
+    )
 
     return message.sid  
 
